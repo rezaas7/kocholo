@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>دکمه دیوانه فان</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+      font-family: "Vazirmatn", sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+    #area {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      background: linear-gradient(90deg,#06b6d4,#3b82f6);
+      border: none;
+      padding: 18px 32px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all .25s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,.4);
+    }
+    #msg {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      display: none;
+      text-align: center;
+    }
+    .toast {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.6);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div id="area">
+    <button id="btn">بزن منو بگیری 😏</button>
+    <div id="msg">🎉 تبریک! تو برنده شدی چون دست از تلاش برنداشتی 😅</div>
+    <div id="toast" class="toast">پیغام</div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const msg = document.getElementById("msg");
+    const area = document.getElementById("area");
+    const toast = document.getElementById("toast");
+    let attempts = 0;
+    const maxAttempts = 15; // تعداد تلاش‌ها زیادتر شد
+
+    const messages = [
+      "😂 اوه اوه، نزدیک بود لپ‌تاپ منفجر شه!",
+      "😏 دکمه گفت: برو بابا، منو نمی‌گیری!",
+      "🙃 فکر کردی خیلی زرنگی؟ دوباره امتحان کن!",
+      "😎 من سریع‌تر از اینترنت خونه‌تونم!",
+      "🤪 ای بابا، دستت کند بود!",
+      "🦄 دکمه تبدیل شد به اسب تک‌شاخ و فرار کرد!",
+      "🍕 پیتزا سفارش بده، شاید دکمه برگرده!",
+      "🕺 دکمه رفت برقصه، الان نمیاد!",
+      "🐱 میو! دکمه تبدیل شد به گربه و پرید!",
+      "🚀 دکمه رفت فضا، برمی‌گرده؟ معلوم نیست!",
+      "🥸 دکمه گفت: من الان مرخصی گرفتم!",
+      "🤯 وایسا، این دکمه اصلاً واقعی نیست!",
+      "🎩 دکمه شعبده‌بازی کرد و غیب شد!",
+      "🛑 خطا 404: دکمه پیدا نشد!",
+      "🤣 تبریک! تو رکورد جهانی «جا موندن از دکمه» رو شکستی!"
+    ];
+
+    function moveButton(){
+      const maxX = area.clientWidth - btn.offsetWidth;
+      const maxY = area.clientHeight - btn.offsetHeight;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+      btn.style.transform = `rotate(${Math.random()*40-20}deg) scale(${1+Math.random()*0.4})`;
+      // تغییر رنگ گرادیان
+      btn.style.background = `linear-gradient(90deg,hsl(${Math.random()*360},70%,50%),hsl(${Math.random()*360},70%,60%))`;
+    }
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"),1200);
+    }
+
+    function handleAttempt(){
+      if(attempts < maxAttempts){
+        moveButton();
+        attempts++;
+        showToast(messages[attempts % messages.length]);
+      } else {
+        btn.style.display = "none";
+        msg.style.display = "block";
+      }
+    }
+
+    // موبایل
+    btn.addEventListener("touchstart", handleAttempt);
+    // دسکتاپ
+    btn.addEventListener("mouseover", handleAttempt);
+  </script>
+</body>
+</html>
